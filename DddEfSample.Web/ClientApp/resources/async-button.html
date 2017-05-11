@@ -1,0 +1,10 @@
+﻿<template>
+    <button type="${type}" class="${cssClass}" disabled.bind="disabled" click.delegate="executeTask()">
+        <span hide.bind="isTaskExecuting">
+            <slot name="icon">
+                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+            </slot>
+        </span>
+        <i show.bind="isTaskExecuting" class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp;<slot></slot>
+    </button>
+</template>

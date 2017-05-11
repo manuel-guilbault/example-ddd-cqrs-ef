@@ -1,0 +1,19 @@
+﻿<template>
+    <require from="./app.css"></require>
+
+    <progress-bar visible.bind="router.isNavigating"></progress-bar>
+    <notifier></notifier>
+
+    <nav class="navbar navbar-toggleable-xl navbar-inverse bg-primary fixed-top">
+        <a class="navbar-brand" href="#"><img src="images/logo-white.png" aria-hidden="true" alt="logo" style="width: 32px; height: 32px;" />&nbsp;Scheduling dashboard</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav">
+                <li repeat.for="row of router.navigation" class="nav-item ${row.isActive ? 'active' : ''}">
+                    <a class="nav-link" href.bind="row.href">${row.title}</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <router-view></router-view>
+</template>

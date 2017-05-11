@@ -1,0 +1,25 @@
+﻿@font-face {
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding-top: 4rem;
+    padding-bottom: 1rem;
+}
+
+.table-sm {
+    width: auto !important;
+    font-size: 0.9rem;
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+td.ellipsis {
+    display: table-cell;
+}

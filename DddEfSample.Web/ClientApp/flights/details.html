@@ -1,0 +1,48 @@
+﻿<template>
+    <section class="container">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th colspan="2">Properties</th>
+                </tr>
+                <tr>
+                    <td>Created at</td>
+                    <td>${flight.createdAt}</td>
+                </tr>
+                <tr>
+                    <td>Modified at</td>
+                    <td>${flight.modifiedAt}</td>
+                </tr>
+                <tr>
+                    <td>Departure city</td>
+                    <td>${flight.departureCity}</td>
+                </tr>
+                <tr>
+                    <td>Arrival city</td>
+                    <td>${flight.arrivalCity}</td>
+                </tr>
+                <tr>
+                    <td>Departing at</td>
+                    <td>${flight.departingAt}</td>
+                </tr>
+                <tr>
+                    <th>Configuration</th>
+                </tr>
+                <tr repeat.for="physicalClassCapacity of flight.configuration">
+                    <td>${physicalClassCapacity.physicalClass}</td>
+                    <td>${physicalClassCapacity.capacity}</td>
+                </tr>
+                <tr>
+                    <th>Booked seats</th>
+                </tr>
+                <tr repeat.for="summary of flight.bookingSummary">
+                    <td>${summary.physicalClass}</td>
+                    <td>${summary.numberOfBookedSeats}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary" route-href="route: edit; params.bind: { id: flight.id }"><i class="fa fa-pencil"></i> Edit</a>
+        <a class="btn btn-default" route-href="route: list"><i class="fa fa-chevron-left"></i> Back</a>
+    </section>
+</template>
