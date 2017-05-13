@@ -1,8 +1,8 @@
 ﻿namespace DddEfSample.Domain.Flights.Views
 {
-    public class PhysicalClassBookingSummary
+    public class PhysicalClassBookingsSummary
     {
-        public PhysicalClassBookingSummary(PhysicalClassIataCode physicalClass, int numberOfSeatsBooked)
+        public PhysicalClassBookingsSummary(PhysicalClassIataCode physicalClass, int numberOfSeatsBooked)
         {
             PhysicalClass = physicalClass;
             NumberOfBookedSeats = numberOfSeatsBooked;

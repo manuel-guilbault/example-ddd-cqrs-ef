@@ -7,6 +7,12 @@ namespace DddEfSample.Domain.Flights
     {
         Task<Flight> GetByIdAsync(Guid id);
         Task CreateAsync(Flight flight);
-        Task UpdateAsync(Flight flight);
+        Task<Result<FlightUpdateError>> UpdateAsync(Flight flight);
+    }
+
+    public enum FlightUpdateError
+    {
+        NotFound,
+        ConcurrencyConflict,
     }
 }

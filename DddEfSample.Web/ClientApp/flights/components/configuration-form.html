@@ -1,0 +1,9 @@
+﻿<template bindable="configuration">
+    <h2>Configuration</h2>
+    <div repeat.for="item of configuration" class="form-group row">
+        <label for="configuration-${item.physicalClass}" class="col-2 col-form-label">${item.physicalClass}</label>
+        <div class="col-10">
+            <input type="text" class="form-control" id="configuration-${item.physicalClass}" placeholder="Capacity" value.bind="item.capacity & validate">
+        </div>
+    </div>
+</template>

@@ -53,10 +53,14 @@
     <Compile Include="Flights\OverBookingExtensions.cs" />
     <Compile Include="Flights\PhysicalClassCapacity.cs" />
     <Compile Include="Flights\PhysicalClassIataCode.cs" />
-    <Compile Include="Flights\Views\FlightBookingSummary.cs" />
-    <Compile Include="Flights\Views\FlightSummary.cs" />
-    <Compile Include="Flights\Views\IFlightSummaryView.cs" />
-    <Compile Include="Flights\Views\PhysicalClassBookingSummary.cs" />
+    <Compile Include="Flights\Routing.cs" />
+    <Compile Include="Flights\Schedule.cs" />
+    <Compile Include="Flights\Views\BookingProjection.cs" />
+    <Compile Include="Flights\Views\FlightBookingsSummary.cs" />
+    <Compile Include="Flights\Views\FlightProjection.cs" />
+    <Compile Include="Flights\Views\IBookingView.cs" />
+    <Compile Include="Flights\Views\IFlightView.cs" />
+    <Compile Include="Flights\Views\PhysicalClassBookingsSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
   </ItemGroup>

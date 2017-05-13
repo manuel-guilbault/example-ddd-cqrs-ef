@@ -1,12 +1,14 @@
 ﻿<template>
     <section class="container">
+        <h1>Flights</h1>
+        <a class="btn btn-primary" route-href="route: create"><i class="fa fa-plus"></i> Create</a>
         <table class="table">
             <thead>
                 <tr>
                     <th></th>
                     <th>Departure city</th>
                     <th>Arrival city</th>
-                    <th>Departing at</th>
+                    <th>Departure at</th>
                     <th>Capacity</th>
                     <th>Booked seats</th>
                 </tr>
@@ -14,9 +16,9 @@
             <tbody>
                 <tr repeat.for="flight of flights">
                     <td><a route-href="route: details; params.bind: { id: flight.id }">View</a></td>
-                    <td>${flight.departureCity}</td>
-                    <td>${flight.arrivalCity}</td>
-                    <td>${flight.departingAt}</td>
+                    <td>${flight.routing.departureCity}</td>
+                    <td>${flight.routing.arrivalCity}</td>
+                    <td>${flight.schedule.departureAt}</td>
                     <td>${flight.capacity}</td>
                     <td>${flight.bookedSeats}</td>
                 </tr>

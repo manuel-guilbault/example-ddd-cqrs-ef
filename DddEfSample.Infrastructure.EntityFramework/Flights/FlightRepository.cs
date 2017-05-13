@@ -1,8 +1,9 @@
-﻿using DddEfSample.Domain.Flights;
+﻿using DddEfSample.Domain;
+using DddEfSample.Domain.Flights;
 using DddEfSample.Infrastructure.EntityFramework.Flights.Entities;
 using System;
 using System.Data.Entity;
-using System.Linq;
+using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 
 namespace DddEfSample.Infrastructure.EntityFramework.Flights
@@ -32,7 +33,7 @@ namespace DddEfSample.Infrastructure.EntityFramework.Flights
                 return null;
             }
 
-            var flight = MapFromDb(row);
+            var flight = row.ToDomain();
             return flight;
         }
 
@@ -41,73 +42,34 @@ namespace DddEfSample.Infrastructure.EntityFramework.Flights
             if (flight == null) throw new ArgumentNullException(nameof(flight));
 
             var row = new FlightRow();
-            MapToDb(row, flight);
+            flight.MapTo(row);
 
             _dbContext.Flights.Add(row);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Flight flight)
+        public async Task<Result<FlightUpdateError>> UpdateAsync(Flight flight)
         {
             if (flight == null) throw new ArgumentNullException(nameof(flight));
 
             var row = await FindRowByIdAsync(flight.Id);
             if (row == null)
             {
-                throw new ArgumentException($"Flight {flight.Id} not found");
+                return Result.Failure(FlightUpdateError.NotFound);
             }
 
-            MapToDb(row, flight);
-            row.ModifiedAt = DateTimeOffset.Now;
+            flight.MapTo(row);
 
-            await _dbContext.SaveChangesAsync();
-        }
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Result.Failure(FlightUpdateError.ConcurrencyConflict);
+            }
 
-        private Flight MapFromDb(FlightRow row)
-        {
-            return new Flight(
-                row.Id,
-                row.CreatedAt,
-                row.ModifiedAt,
-                row.DepartureCity,
-                row.ArrivalCity,
-                row.DepartingAt,
-                new Configuration(
-                    row.PhysicalClassCapacities
-                        .Select(x => new PhysicalClassCapacity(x.PhysicalClass, x.Capacity))
-                        .ToArray()
-                ),
-                row.Bookings
-                    .Select(x => new Booking(x.Id, x.BookedAt, x.PhysicalClass, x.NumberOfSeats))
-            );
-        }
-
-        private void MapToDb(FlightRow row, Flight flight)
-        {
-            row.Id = flight.Id;
-            row.CreatedAt = flight.CreatedAt;
-            row.ModifiedAt = flight.ModifiedAt;
-            row.DepartureCity = flight.DepartureCity;
-            row.ArrivalCity = flight.ArrivalCity;
-            row.DepartingAt = flight.DepartingAt;
-            row.PhysicalClassCapacities.SynchronizeWith(flight.Configuration, x => x.PhysicalClass, x => x.PhysicalClass, (x, y) => MapToDb(x, y, flight));
-            row.Bookings.SynchronizeWith(flight.Bookings, x => x.Id, x => x.Id, (x, y) => MapToDb(x, y, flight));
-        }
-
-        private void MapToDb(PhysicalClassCapacityRow row, PhysicalClassCapacity physicalClassCapacity, Flight flight)
-        {
-            row.FlightId = flight.Id;
-            row.PhysicalClass = physicalClassCapacity.PhysicalClass;
-            row.Capacity = physicalClassCapacity.Capacity;
-        }
-
-        private void MapToDb(BookingRow row, Booking booking, Flight flight)
-        {
-            row.Id = booking.Id;
-            row.FlightId = flight.Id;
-            row.BookedAt = booking.BookedAt;
-            row.PhysicalClass = booking.PhysicalClass;
-            row.NumberOfSeats = booking.NumberOfSeats;
+            return Result.Success<FlightUpdateError>();
         }
     }
 }

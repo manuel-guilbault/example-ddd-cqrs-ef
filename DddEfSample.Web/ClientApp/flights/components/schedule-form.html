@@ -1,0 +1,21 @@
+﻿<template bindable="schedule">
+    <h2>Schedule</h2>
+    <div class="form-group row">
+        <label for="checkInAt" class="col-2 col-form-label">Check-in at</label>
+        <div class="col-10">
+            <input type="datetime-local" class="form-control" id="checkInAt" value.bind="schedule.checkInAt | isoDate & validate">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="departureAt" class="col-2 col-form-label">Departure at</label>
+        <div class="col-10">
+            <input type="datetime-local" class="form-control" id="departureAt" placeholder="Departure at" value.bind="schedule.departureAt | isoDate & validate">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="arrivalAt" class="col-2 col-form-label">Arrival at</label>
+        <div class="col-10">
+            <input type="datetime-local" class="form-control" id="arrivalAt" placeholder="Arrival at" value.bind="schedule.arrivalAt | isoDate & validate">
+        </div>
+    </div>
+</template>

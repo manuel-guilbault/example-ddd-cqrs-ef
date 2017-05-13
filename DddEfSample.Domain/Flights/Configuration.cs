@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +11,8 @@ namespace DddEfSample.Domain.Flights
 
         public Configuration(IEnumerable<PhysicalClassCapacity> physicalClasses)
         {
+            if (physicalClasses == null) { throw new ArgumentNullException(nameof(physicalClasses)); }
+
             _physicalClasses = physicalClasses.ToDictionary(x => x.PhysicalClass);
         }
 

@@ -5,6 +5,7 @@ export function configure(config: FrameworkConfiguration) {
         './progress-bar',
         './async-button',
 
+        './iso-date',
         './date-format',
         './duration',
         './number-format',

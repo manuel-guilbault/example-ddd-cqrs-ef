@@ -65,7 +65,8 @@ namespace DddEfSample.Web
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FlightDbContext>());
             containerBuilder.RegisterType<FlightDbContext>().InstancePerLifetimeScope();
             containerBuilder.RegisterType<FlightRepository>().As<IFlightRepository>();
-            containerBuilder.RegisterType<FlightSummaryView>().As<IFlightSummaryView>();
+            containerBuilder.RegisterType<FlightView>().As<IFlightView>();
+            containerBuilder.RegisterType<BookingView>().As<IBookingView>();
             
             containerBuilder.Populate(services);
             ApplicationContainer = containerBuilder.Build();

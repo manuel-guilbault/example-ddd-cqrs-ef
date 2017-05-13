@@ -1,21 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DddEfSample.Domain.Flights.Views
 {
-    public class FlightBookingSummary : IEnumerable<PhysicalClassBookingSummary>
+    public class FlightBookingsSummary : IEnumerable<PhysicalClassBookingsSummary>
     {
-        private readonly Dictionary<PhysicalClassIataCode, PhysicalClassBookingSummary> _bookingSummaries;
+        private readonly Dictionary<PhysicalClassIataCode, PhysicalClassBookingsSummary> _bookingSummaries;
 
-        public FlightBookingSummary(params PhysicalClassBookingSummary[] bookingSummaries)
+        public FlightBookingsSummary(IEnumerable<PhysicalClassBookingsSummary> bookingSummaries)
         {
+            if (bookingSummaries == null) { throw new ArgumentNullException(nameof(bookingSummaries)); }
+
             _bookingSummaries = bookingSummaries.ToDictionary(x => x.PhysicalClass);
         }
 
         public int TotalNumberOfBookedSeats => _bookingSummaries.Values.Sum(x => x.NumberOfBookedSeats);
         
-        public IEnumerator<PhysicalClassBookingSummary> GetEnumerator()
+        public IEnumerator<PhysicalClassBookingsSummary> GetEnumerator()
         {
             return _bookingSummaries.Values.GetEnumerator();
         }

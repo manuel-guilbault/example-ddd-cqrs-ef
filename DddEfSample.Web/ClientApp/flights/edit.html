@@ -1,14 +1,14 @@
 ﻿<template>
-    <require from="./components/routing-form.html"></require>
-    <require from="./components/schedule-form.html"></require>
+    <require from="./components/routing-display.html"></require>
+    <require from="./components/schedule-display.html"></require>
     <require from="./components/configuration-form.html"></require>
 
     <section class="container">
-        <h1>New flight</h1>
+        <h1>Edit flight</h1>
 
         <form validation-renderer="bootstrap-validation-renderer" submit.delegate="save()">
-            <routing-form routing.bind="form.routing"></routing-form>
-            <schedule-form schedule.bind="form.schedule"></schedule-form>
+            <routing-display routing.bind="flight.routing"></routing-display>
+            <schedule-display schedule.bind="flight.schedule"></schedule-display>
             <configuration-form configuration.bind="form.configuration"></configuration-form>
 
             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Save</button>

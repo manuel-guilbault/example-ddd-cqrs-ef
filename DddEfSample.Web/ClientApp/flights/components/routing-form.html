@@ -1,0 +1,15 @@
+﻿<template bindable="routing">
+    <h2>Routing</h2>
+    <div class="form-group row">
+        <label for="departureCity" class="col-2 col-form-label">Departure city</label>
+        <div class="col-10">
+            <input type="text" class="form-control" id="departureCity" placeholder="Departure city" value.bind="routing.departureCity & validate">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="arrivalCity" class="col-2 col-form-label">Arrival city</label>
+        <div class="col-10">
+            <input type="text" class="form-control" id="arrivalCity" placeholder="Arrival city" value.bind="routing.arrivalCity & validate">
+        </div>
+    </div>
+</template>

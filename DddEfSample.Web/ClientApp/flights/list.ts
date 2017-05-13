@@ -12,9 +12,8 @@ export class List {
         const flights = await this.apiClient.getFlights();
         this.flights = flights.map(f => (<FlightViewModel>{
             id: f.id,
-            departureCity: f.departureCity,
-            arrivalCity: f.arrivalCity,
-            departingAt: f.departingAt,
+            routing: f.routing,
+            schedule: f.schedule,
             capacity: f.configuration
                 .map(x => x.capacity)
                 .reduce((total, capacity) => total + capacity, 0),
@@ -27,9 +26,8 @@ export class List {
 
 export interface FlightViewModel {
     id: string;
-    departureCity: string;
-    arrivalCity: string;
-    departingAt: Date;
+    routing: Api.Routing;
+    schedule: Api.Schedule;
     capacity: number;
     bookedSeats: number;
 }

@@ -7,37 +7,37 @@ export module Api {
     export class Client {
 
         constructor(private readonly http: HttpClient) {
-            http.configure(c => c.withBaseUrl(`api/Flights/`));
+            http.configure(c => c.withBaseUrl(`api/`));
         }
 
         async getFlights() {
-            const response = await this.http.fetch(``);
+            const response = await this.http.fetch(`flights`);
             const flightSummaries = await response.json();
             return flightSummaries as FlightSummary[];
         }
 
         async getFlightById(id: string) {
-            const response = await this.http.fetch(id);
+            const response = await this.http.fetch(`flights/${id}`);
             const flightSummary = await response.json();
             return flightSummary as FlightSummary;
         }
 
-        async createFlight(properties: FlightProperties) {
-            await this.http.fetch(``, { method: 'POST', body: json(properties) });
+        async createFlight(model: FlightCreationModel) {
+            await this.http.fetch(`flights`, { method: 'POST', body: json(model) });
         }
 
-        async updateConfiguration(flightId: string, configuration: Configuration) {
-            await this.http.fetch(`${flightId}/Configuration`, { method: 'PUT', body: json(configuration) });
+        async updateFlight(id: string, model: FlightUpdateModel) {
+            await this.http.fetch(`flights/${id}`, { method: 'PUT', body: json(model) });
         }
 
         async getBookings(flightId: string) {
-            const response = await this.http.fetch(`${flightId}/Bookings`);
+            const response = await this.http.fetch(`bookings?flightId=${flightId}`);
             const bookings = await response.json();
             return bookings as Booking[];
         }
 
-        async book(flightId: string, properties: BookingProperties) {
-            await this.http.fetch(`${flightId}/Bookings`, { method: 'POST', body: json(properties) });
+        async book(model: BookingCreationModel) {
+            await this.http.fetch(`bookings`, { method: 'POST', body: json(model) });
         }
     }
 
@@ -45,13 +45,22 @@ export module Api {
 
     export interface FlightSummary {
         id: string;
-        createdAt: Date;
-        modifiedAt: Date;
+        eTag: string;
+        routing: Routing;
+        schedule: Schedule;
+        configuration: Configuration;
+        bookingSummary: FlightBookingsSummary;
+    }
+
+    export interface Routing {
         departureCity: string;
         arrivalCity: string;
-        departingAt: Date;
-        configuration: Configuration;
-        bookingSummary: BookingSummary;
+    }
+
+    export interface Schedule {
+        checkInAt: Date;
+        departureAt: Date;
+        arrivalAt: Date;
     }
 
     export type Configuration = PhysicalClassCapacity[];
@@ -61,28 +70,34 @@ export module Api {
         capacity: number;
     }
 
-    export type BookingSummary = PhysicalClassBookingSummary[];
+    export type FlightBookingsSummary = PhysicalClassBookingsSummary[];
 
-    export interface PhysicalClassBookingSummary {
+    export interface PhysicalClassBookingsSummary {
         physicalClass: PhysicalClassIataCode;
         numberOfBookedSeats: number;
     }
 
-    export interface FlightProperties {
-        departureCity: string;
-        arrivalCity: string;
-        departingAt: Date;
+    export interface FlightCreationModel {
+        routing: Routing;
+        schedule: Schedule;
+        configuration: Configuration;
+    }
+
+    export interface FlightUpdateModel {
+        eTag: string;
         configuration: Configuration;
     }
 
     export interface Booking {
         id: string;
+        flightId: string;
         bookedAt: Date;
         physicalClass: PhysicalClassIataCode;
         numberOfSeats: number;
     }
 
-    export interface BookingProperties {
+    export interface BookingCreationModel {
+        flightId: string;
         physicalClass: PhysicalClassIataCode;
         numberOfSeats: number;
     }

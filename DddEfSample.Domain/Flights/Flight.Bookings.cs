@@ -9,9 +9,9 @@ namespace DddEfSample.Domain.Flights
         private List<Booking> _bookings;
         public IReadOnlyList<Booking> Bookings => _bookings;
 
-        public Result<BookError> Book(PhysicalClassIataCode physicalClass, int numberOfSeats)
+        public Result<BookError> Book(Guid bookingId, PhysicalClassIataCode physicalClass, int numberOfSeats)
         {
-            var newBooking = new Booking(physicalClass, numberOfSeats);
+            var newBooking = new Booking(bookingId, DateTimeOffset.Now, physicalClass, numberOfSeats);
 
             var bookingsSimulation = _bookings.Concat(newBooking);
             if (Configuration.IsOverBooked(bookingsSimulation))

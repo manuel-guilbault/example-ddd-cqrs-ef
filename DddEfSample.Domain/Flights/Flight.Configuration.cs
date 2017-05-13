@@ -1,4 +1,6 @@
-﻿namespace DddEfSample.Domain.Flights
+﻿using System;
+
+namespace DddEfSample.Domain.Flights
 {
     public partial class Flight
     {
@@ -7,6 +9,8 @@
 
         public Result<ConfigurationError> UpdateConfiguration(Configuration configuration)
         {
+            if (configuration == null) { throw new ArgumentNullException(nameof(configuration)); }
+
             if (configuration.IsOverBooked(Bookings))
             {
                 return Result.Failure(ConfigurationError.WouldCauseOverbooking);

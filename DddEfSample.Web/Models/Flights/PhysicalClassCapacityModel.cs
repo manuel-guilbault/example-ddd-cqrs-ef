@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DddEfSample.Web.Models.Flights
 {
-    public class PhysicalClassCapacity
+    public class PhysicalClassCapacityModel
     {
         public PhysicalClassIataCode PhysicalClass { get; set; }
 

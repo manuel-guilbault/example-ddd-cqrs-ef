@@ -26,3 +26,24 @@ ValidationRules.customRule(
     (value, _) => value === null || value === undefined || value === '' || csharpClassNameMatcher.test(value),
     `\${$displayName} must be a valid C# fully qualified class name`
 );
+
+ValidationRules.customRule(
+    'unique',
+    (value: any[], _, keySelector: (v: any) => any) => {
+        if (value === null || value === undefined) {
+            return true;
+        }
+
+        keySelector = keySelector || (v => v);
+        const grouped = value.reduce((map, v) => {
+            const key = keySelector(v);
+            const nbr = map.get(key) || 0;
+            map.set(key, nbr + 1)
+        }, new Map<any, number>());
+
+        return Array.from(grouped.values())
+            .filter(x => x > 1)
+            .length === 0;
+    },
+    `\${$displayName} must contain only unique values`
+);
