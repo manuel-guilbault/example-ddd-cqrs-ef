@@ -9,21 +9,19 @@ namespace DddEfSample.Domain.Flights
         private List<Booking> _bookings;
         public IReadOnlyList<Booking> Bookings => _bookings;
 
-        public Result<BookError> Book(Guid bookingId, PhysicalClassIataCode physicalClass, int numberOfSeats)
+        public Result<BookingError> Book(Booking booking)
         {
-            var newBooking = new Booking(bookingId, DateTimeOffset.Now, physicalClass, numberOfSeats);
-
-            var bookingsSimulation = _bookings.Concat(newBooking);
+            var bookingsSimulation = _bookings.Concat(booking);
             if (Configuration.IsOverBooked(bookingsSimulation))
             {
-                return Result.Failure(BookError.NoMoreCapacity);
+                return Result.Failure(BookingError.NoMoreCapacity);
             }
 
-            _bookings.Add(newBooking);
-            return Result.Success<BookError>();
+            _bookings.Add(booking);
+            return Result.Success<BookingError>();
         }
 
-        public enum BookError
+        public enum BookingError
         {
             NoMoreCapacity,
         }

@@ -6,6 +6,7 @@ export function configure(config: FrameworkConfiguration) {
         './async-button',
 
         './iso-date',
+        './find',
         './date-format',
         './duration',
         './number-format',

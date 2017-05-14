@@ -28,13 +28,7 @@ namespace DddEfSample.Infrastructure.EntityFramework.Flights
         public async Task<Flight> GetByIdAsync(Guid id)
         {
             var row = await FindRowByIdAsync(id);
-            if (row == null)
-            {
-                return null;
-            }
-
-            var flight = row.ToDomain();
-            return flight;
+            return row?.ToDomain();
         }
 
         public async Task CreateAsync(Flight flight)

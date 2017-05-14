@@ -1,5 +1,4 @@
 ﻿using DddEfSample.Domain.Flights;
-using DddEfSample.Domain.Flights.Views;
 using DddEfSample.Infrastructure.EntityFramework.Flights.Entities;
 using System.Collections.Generic;
 using System.Linq;

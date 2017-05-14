@@ -8,7 +8,7 @@
 
         <routing-display routing.one-time="flight.routing"></routing-display>
         <schedule-display schedule.one-time="flight.schedule"></schedule-display>
-        <configuration-display configuration.one-time="flight.configuration"></configuration-display>
+        <configuration-display configuration.one-time="flight.configuration" bookings.one-time="flight.bookingsSummary"></configuration-display>
 
         <a class="btn btn-primary" route-href="route: edit; params.bind: { id: flight.id }"><i class="fa fa-pencil"></i> Edit</a>
         <a class="btn btn-secondary" route-href="route: book; params.bind: { id: flight.id }"><i class="fa fa-calendar-plus-o"></i> Book seats</a>

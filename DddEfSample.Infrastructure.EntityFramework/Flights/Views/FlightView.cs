@@ -56,14 +56,13 @@ namespace DddEfSample.Infrastructure.EntityFramework.Flights.Views
 
         public async Task<IEnumerable<FlightProjection>> GetAllAsync()
         {
-            var view = await Query();
-            return view.ToList();
+            return await Query();
         }
 
         public async Task<FlightProjection> GetByIdAsync(Guid id)
         {
-            var view = await Query(x => x.Id == id);
-            return view.SingleOrDefault();
+            var result = await Query(x => x.Id == id);
+            return result.SingleOrDefault();
         }
     }
 }

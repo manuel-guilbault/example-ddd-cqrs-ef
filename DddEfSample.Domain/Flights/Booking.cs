@@ -4,6 +4,11 @@ namespace DddEfSample.Domain.Flights
 {
     public class Booking
     {
+        public Booking(PhysicalClassIataCode physicalClass, int numberOfSeats)
+            : this(Guid.NewGuid(), DateTimeOffset.Now, physicalClass, numberOfSeats)
+        {
+        }
+
         public Booking(Guid id, DateTimeOffset bookedAt, PhysicalClassIataCode physicalClass, int numberOfSeats)
         {
             Id = id;

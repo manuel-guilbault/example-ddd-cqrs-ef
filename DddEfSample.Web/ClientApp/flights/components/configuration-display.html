@@ -1,9 +1,21 @@
-﻿<template bindable="configuration">
+﻿<template bindable="configuration, bookings">
     <h2>Configuration</h2>
+    <div class="form-group row">
+        <label class="col-2 col-form-label"><strong>Physical class</strong></label>
+        <div class="col-2">
+            <p class="form-control-static"><strong>Capacity</strong></p>
+        </div>
+        <div class="col-2">
+            <p class="form-control-static"><strong>Booked seats</strong></p>
+        </div>
+    </div>
     <div repeat.for="item of configuration" class="form-group row">
         <label class="col-2 col-form-label">${item.physicalClass}</label>
         <div class="col-2">
             <p class="form-control-static">${item.capacity}</p>
+        </div>
+        <div class="col-2" booking.bind="bookings | find: 'physicalClass': item.physicalClass" element.ref="booking">
+            <p class="form-control-static">${booking.booking.numberOfBookedSeats || '0'}</p>
         </div>
     </div>
 </template>

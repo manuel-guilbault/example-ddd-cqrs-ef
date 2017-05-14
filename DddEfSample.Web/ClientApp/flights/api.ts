@@ -49,7 +49,7 @@ export module Api {
         routing: Routing;
         schedule: Schedule;
         configuration: Configuration;
-        bookingSummary: FlightBookingsSummary;
+        bookingsSummary: FlightBookingsSummary;
     }
 
     export interface Routing {

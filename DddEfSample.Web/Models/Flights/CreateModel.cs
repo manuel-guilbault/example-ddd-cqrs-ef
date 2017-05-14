@@ -2,10 +2,13 @@
 
 namespace DddEfSample.Web.Models.Flights
 {
-    public class ModificationModel
+    public class CreateModel
     {
         [Required]
-        public string ETag { get; set; }
+        public RoutingModel Routing { get; set; }
+
+        [Required]
+        public ScheduleModel Schedule { get; set; }
 
         [Required]
         public ConfigurationModel Configuration { get; set; }

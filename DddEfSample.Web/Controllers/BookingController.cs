@@ -56,8 +56,8 @@ namespace DddEfSample.Web.Controllers
                 return NotFound();
             }
 
-            var bookingId = Guid.NewGuid();
-            var result = flight.Book(bookingId, model.PhysicalClass, model.NumberOfSeats);
+            var booking = model.ToDomain();
+            var result = flight.Book(booking);
             if (!result.IsSuccess)
             {
                 return result.Error.ToResult();
@@ -69,9 +69,9 @@ namespace DddEfSample.Web.Controllers
                 return updateResult.Error.ToResult();
             }
 
-            var url = Url.RouteUrl("GetBookingById", new { id = bookingId });
-            var booking = await _view.GetByIdAsync(bookingId);
-            return Created(url, booking);
+            var url = Url.RouteUrl("GetBookingById", new { id = booking.Id });
+            var projection = await _view.GetByIdAsync(booking.Id);
+            return Created(url, projection);
         }
     }
 }

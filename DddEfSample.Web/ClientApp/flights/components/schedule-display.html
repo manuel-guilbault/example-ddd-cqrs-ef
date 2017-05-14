@@ -3,19 +3,19 @@
     <div class="form-group row">
         <label class="col-2 col-form-label">Check-in at</label>
         <div class="col-2">
-            <p class="form-control-static">${schedule.checkInAt}</p>
+            <p class="form-control-static">${schedule.checkInAt | dateFormat: 'lll'}</p>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-2 col-form-label">Departure at</label>
         <div class="col-2">
-            <p class="form-control-static">${schedule.departureAt}</p>
+            <p class="form-control-static">${schedule.departureAt | dateFormat: 'lll'}</p>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-2 col-form-label">Arrival at</label>
         <div class="col-2">
-            <p class="form-control-static">${schedule.arrivalAt}</p>
+            <p class="form-control-static">${schedule.arrivalAt | dateFormat: 'lll'}</p>
         </div>
     </div>
 </template>

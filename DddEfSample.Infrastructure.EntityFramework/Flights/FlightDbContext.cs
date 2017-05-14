@@ -1,6 +1,5 @@
 ﻿using DddEfSample.Infrastructure.EntityFramework.Flights.Entities;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace DddEfSample.Infrastructure.EntityFramework.Flights
 {

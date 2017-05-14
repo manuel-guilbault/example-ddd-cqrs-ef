@@ -7,12 +7,13 @@ namespace DddEfSample.Domain.Flights
     {
         public static bool IsOverBooked(this Configuration configuration, IEnumerable<Booking> bookings)
         {
-            var bookSeatsByPhysicalClass = bookings
+            var bookedSeatsPerPhysicalClass = bookings
                 .GroupBy(x => x.PhysicalClass)
                 .ToDictionary(x => x.Key, x => x.Sum(b => b.NumberOfSeats));
             foreach (var physicalClassCapacity in configuration)
             {
-                if (physicalClassCapacity.Capacity < bookSeatsByPhysicalClass.GetOrDefault(physicalClassCapacity.PhysicalClass, 0))
+                var bookedSeats = bookedSeatsPerPhysicalClass.GetOrDefault(physicalClassCapacity.PhysicalClass, 0);
+                if (physicalClassCapacity.Capacity < bookedSeats)
                 {
                     return true;
                 }

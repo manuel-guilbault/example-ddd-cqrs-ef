@@ -42,8 +42,8 @@ namespace DddEfSample.Infrastructure.EntityFramework.Flights.Views
 
         public async Task<BookingProjection> GetByIdAsync(Guid id)
         {
-            var bookings = await Query(x => x.Id == id);
-            return bookings.SingleOrDefault();
+            var result = await Query(x => x.Id == id);
+            return result.SingleOrDefault();
         }
     }
 }

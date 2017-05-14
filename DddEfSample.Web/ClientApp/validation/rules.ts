@@ -28,6 +28,13 @@ ValidationRules.customRule(
 );
 
 ValidationRules.customRule(
+    'minValue',
+    (value: any, _, min) => value === null || value === undefined || value >= min,
+    `\${$displayName} must be equal to or greater than \${$config.min}`,
+    min => ({ min })
+);
+
+ValidationRules.customRule(
     'unique',
     (value: any[], _, keySelector: (v: any) => any) => {
         if (value === null || value === undefined) {

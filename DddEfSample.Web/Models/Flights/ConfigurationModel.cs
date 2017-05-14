@@ -8,15 +8,15 @@ namespace DddEfSample.Web.Models.Flights
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var physicalClassesWithDuplicatedCapacity = this
+            var duplicatedPhysicalClasses = this
                 .GroupBy(x => x.PhysicalClass)
                 .Where(g => g.Skip(1).Any())
                 .Select(g => g.Key)
                 .ToList();
-            if ((physicalClassesWithDuplicatedCapacity?.Count ?? 0) > 0)
+            if (duplicatedPhysicalClasses.Count > 0)
             {
-                var classesSuffix = physicalClassesWithDuplicatedCapacity.Count > 1 ? "es" : "";
-                var physicalClasses = string.Join(", ", physicalClassesWithDuplicatedCapacity);
+                var classesSuffix = duplicatedPhysicalClasses.Count > 1 ? "es" : "";
+                var physicalClasses = string.Join(", ", duplicatedPhysicalClasses);
                 yield return new ValidationResult($"Dulicated capacity for physical class{classesSuffix} {physicalClasses}.");
             }
         }

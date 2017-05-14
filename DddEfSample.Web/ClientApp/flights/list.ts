@@ -17,7 +17,7 @@ export class List {
             capacity: f.configuration
                 .map(x => x.capacity)
                 .reduce((total, capacity) => total + capacity, 0),
-            bookedSeats: f.bookingSummary
+            bookedSeats: f.bookingsSummary
                 .map(x => x.numberOfBookedSeats)
                 .reduce((total, seats) => total + seats, 0),
         }));

@@ -18,9 +18,9 @@
                     <td><a route-href="route: details; params.bind: { id: flight.id }">View</a></td>
                     <td>${flight.routing.departureCity}</td>
                     <td>${flight.routing.arrivalCity}</td>
-                    <td>${flight.schedule.departureAt}</td>
+                    <td>${flight.schedule.departureAt | dateFormat: 'lll'}</td>
                     <td>${flight.capacity}</td>
-                    <td>${flight.bookedSeats}</td>
+                    <td><a route-href="route: bookings; params.bind: { id: flight.id }">${flight.bookedSeats}</a></td>
                 </tr>
             </tbody>
         </table>

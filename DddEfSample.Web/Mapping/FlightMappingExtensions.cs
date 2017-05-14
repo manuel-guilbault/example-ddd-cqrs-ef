@@ -8,7 +8,7 @@ namespace DddEfSample.Web.Mapping
 {
     public static class FlightMappingExtensions
     {
-        public static Flight ToDomain(this CreationModel model)
+        public static Flight ToDomain(this CreateModel model)
             => new Flight(
                 model.Routing.ToDomain(),
                 model.Schedule.ToDomain(),
@@ -34,11 +34,11 @@ namespace DddEfSample.Web.Mapping
             }
         }
 
-        public static IActionResult ToResult(this Flight.BookError error)
+        public static IActionResult ToResult(this Flight.BookingError error)
         {
             switch (error)
             {
-                case Flight.BookError.NoMoreCapacity:
+                case Flight.BookingError.NoMoreCapacity:
                     return new StatusCodeResult(409); //Conflict
                 default:
                     return new StatusCodeResult(500); //Internal Server Error

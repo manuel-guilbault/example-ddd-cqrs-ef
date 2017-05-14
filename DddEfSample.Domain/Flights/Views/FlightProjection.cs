@@ -7,11 +7,11 @@ namespace DddEfSample.Domain.Flights.Views
         public FlightProjection(Guid id, string etag, Routing routing, Schedule schedule, Configuration configuration, FlightBookingsSummary bookingSummary)
         {
             Id = id;
-            ETag = etag;
+            ETag = etag ?? throw new ArgumentNullException(nameof(routing));
             Routing = routing ?? throw new ArgumentNullException(nameof(routing));
             Schedule = schedule ?? throw new ArgumentNullException(nameof(schedule));
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            BookingSummary = bookingSummary ?? throw new ArgumentNullException(nameof(bookingSummary));
+            BookingsSummary = bookingSummary ?? throw new ArgumentNullException(nameof(bookingSummary));
         }
 
         public Guid Id { get; }
@@ -19,6 +19,6 @@ namespace DddEfSample.Domain.Flights.Views
         public Routing Routing { get; }
         public Schedule Schedule { get; }
         public Configuration Configuration { get; }
-        public FlightBookingsSummary BookingSummary { get; }
+        public FlightBookingsSummary BookingsSummary { get; }
     }
 }

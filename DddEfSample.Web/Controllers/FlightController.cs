@@ -43,7 +43,7 @@ namespace DddEfSample.Web
 
         [Route("", Name = "CreateFlight")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreationModel model)
+        public async Task<IActionResult> Create([FromBody] CreateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace DddEfSample.Web
 
         [Route("{id:Guid}", Name = "UpdateFlight")]
         [HttpPut]
-        public async Task<IActionResult> Update(Guid id, [FromBody] ModificationModel model)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateModel model)
         {
             if (!ModelState.IsValid)
             {

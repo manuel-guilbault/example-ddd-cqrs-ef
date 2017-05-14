@@ -15,7 +15,7 @@ export class Book implements RoutableComponentActivate {
     ) {
         ValidationRules
             .ensure((x: Book) => x.physicalClass).required()
-            .ensure(x => x.numberOfSeats).required()
+            .ensure(x => x.numberOfSeats).required().satisfiesRule('minValue', 1)
             .on(this);
     }
 
