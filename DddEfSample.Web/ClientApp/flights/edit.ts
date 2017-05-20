@@ -15,11 +15,17 @@ export class Edit implements RoutableComponentActivate {
     ) { }
 
     flight: Api.FlightSummary;
-    readonly form = new Model.FlightUpdateForm();
+    form: Model.FlightUpdateForm;
+    error: Api.FlightUpdateError;
     
     async activate(params: RouteParams) {
-        this.flight = await this.apiClient.getFlightById(params.id);
+        await this.loadFlight(params.id);
+    }
 
+    private async loadFlight(id: string) {
+        this.flight = await this.apiClient.getFlightById(id);
+
+        this.form = new Model.FlightUpdateForm();
         for (let item of this.flight.configuration) {
             const physicalClassForm = this.form.configuration.find(x => x.physicalClass === item.physicalClass);
             if (physicalClassForm) {
@@ -31,13 +37,20 @@ export class Edit implements RoutableComponentActivate {
     }
 
     async save() {
+        this.error = undefined;
         const result = await this.validator.validate();
         if (result.valid) {
-            await this.apiClient.updateFlight(this.flight.id, {
-                eTag: this.flight.eTag,
+            const result = await this.apiClient.updateFlight(this.flight.id, this.flight.eTag, {
                 configuration: this.form.configuration,
             });
-            this.router.navigateToRoute('details', { id: this.flight.id });
+            if (result === 'conflict') {
+                this.error = result;
+            } else if (result === 'concurrent-update') {
+                this.error = result;
+                await this.loadFlight(this.flight.id);
+            } else {
+                this.router.navigateToRoute('details', { id: this.flight.id });
+            }
         }
     }
 }

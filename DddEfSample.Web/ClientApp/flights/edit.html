@@ -6,6 +6,21 @@
     <section class="container">
         <h1>Edit flight</h1>
 
+        <div show.bind="error === 'conflict'" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong class="alert-heading"><i class="fa fa-exclamation-circle"></i> Conflict</strong>
+            <p>Capacity is lower than actual number of bookings.</p>
+        </div>
+        <div show.bind="error === 'concurrent-update'" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong class="alert-heading"><i class="fa fa-exclamation-circle"></i> Conflict</strong>
+            <p>This flight was modified by another user. Please revise your changes and retry.</p>
+        </div>
+
         <form validation-renderer="bootstrap-validation-renderer" submit.delegate="save()">
             <routing-display routing.bind="flight.routing"></routing-display>
             <schedule-display schedule.bind="flight.schedule"></schedule-display>

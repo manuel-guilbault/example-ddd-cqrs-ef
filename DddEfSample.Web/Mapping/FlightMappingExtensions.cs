@@ -51,7 +51,7 @@ namespace DddEfSample.Web.Mapping
             {
                 case FlightUpdateError.NotFound:
                 case FlightUpdateError.ConcurrencyConflict:
-                    return new StatusCodeResult(409); //Conflict
+                    return new StatusCodeResult(412); //Precondition Failed
                 default:
                     return new StatusCodeResult(500); //Internal Server Error
             }

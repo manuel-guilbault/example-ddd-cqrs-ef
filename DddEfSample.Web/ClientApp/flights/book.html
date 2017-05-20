@@ -1,6 +1,22 @@
 ﻿<template>
     <section class="container">
         <h1>Book seats</h1>
+
+        <div show.bind="error === 'conflict'" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong class="alert-heading"><i class="fa fa-exclamation-circle"></i> Conflict</strong>
+            <p>Insufficient capacity.</p>
+        </div>
+        <div show.bind="error === 'concurrent-update'" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong class="alert-heading"><i class="fa fa-exclamation-circle"></i> Conflict</strong>
+            <p>This flight was modified by another user. Please revise your changes and retry.</p>
+        </div>
+
         <form validation-renderer="bootstrap-validation-renderer" submit.delegate="save()">
             <div class="form-group row">
                 <label for="physicalClass" class="col-2 col-form-label">Physical class</label>

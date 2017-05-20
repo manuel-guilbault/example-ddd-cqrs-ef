@@ -1,5 +1,6 @@
 using DddEfSample.Domain.Flights;
 using DddEfSample.Domain.Flights.Views;
+using DddEfSample.Web.ActionResults;
 using DddEfSample.Web.Mapping;
 using DddEfSample.Web.Models.Flights;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace DddEfSample.Web
 
         [Route("{id:Guid}", Name = "GetFlightById")]
         [HttpGet]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id, [FromHeader(Name = "If-None-Match")] string eTag = null)
         {
             var flight = await _view.GetByIdAsync(id);
             if (flight == null)
@@ -38,7 +39,12 @@ namespace DddEfSample.Web
                 return NotFound();
             }
 
-            return Ok(flight);
+            if (eTag != null && flight.ETag == eTag)
+            {
+                return StatusCode(304); //Not Modified
+            }
+            
+            return Ok(flight).WithHeader("ETag", flight.ETag);
         }
 
         [Route("", Name = "CreateFlight")]
@@ -55,12 +61,12 @@ namespace DddEfSample.Web
 
             var url = Url.RouteUrl("GetFlightById", new { id = flight.Id });
             var summary = await _view.GetByIdAsync(flight.Id);
-            return Created(url, summary);
+            return Created(url, summary).WithHeader("ETag", summary.ETag);
         }
 
         [Route("{id:Guid}", Name = "UpdateFlight")]
         [HttpPut]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateModel model)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateModel model, [FromHeader(Name = "If-Match")] string eTag = null)
         {
             if (!ModelState.IsValid)
             {
@@ -73,9 +79,9 @@ namespace DddEfSample.Web
                 return NotFound();
             }
 
-            if (flight.ETag != model.ETag)
+            if (eTag != null && eTag != flight.ETag)
             {
-                return StatusCode(409); //Conflict
+                return StatusCode(412); //Precondition Failed
             }
 
             var newConfiguration = model.Configuration.ToDomain();
@@ -92,7 +98,7 @@ namespace DddEfSample.Web
             }
 
             var summary = await _view.GetByIdAsync(flight.Id);
-            return Ok(summary);
+            return Ok(summary).WithHeader("ETag", summary.ETag);
         }
     }
 }

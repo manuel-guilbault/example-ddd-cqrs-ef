@@ -26,8 +26,19 @@ export module Api {
             await this.http.fetch(`flights`, { method: 'POST', body: json(model) });
         }
 
-        async updateFlight(id: string, model: FlightUpdateModel) {
-            await this.http.fetch(`flights/${id}`, { method: 'PUT', body: json(model) });
+        async updateFlight(id: string, eTag: string, model: FlightUpdateModel): Promise<FlightUpdateError> {
+            try {
+                await this.http.fetch(`flights/${id}`, { method: 'PUT', headers: new Headers({ 'If-Match': eTag }), body: json(model) });
+            } catch (e) {
+                const response = e as Response;
+                if (response.status === 409 /*Conflict*/) {
+                    return 'conflict';
+                } else if (response.status === 412 /*Precondition Failed*/) {
+                    return 'concurrent-update';
+                } else if (!response.ok) {
+                    throw new Error(`The request responded with status ${response.status} ${response.statusText}, which is unexpected.`);
+                }
+            }
         }
 
         async getBookings(flightId: string) {
@@ -36,8 +47,19 @@ export module Api {
             return bookings as Booking[];
         }
 
-        async book(model: BookingCreationModel) {
-            await this.http.fetch(`bookings`, { method: 'POST', body: json(model) });
+        async book(model: BookingCreationModel): Promise<FlightUpdateError> {
+            try {
+                await this.http.fetch(`bookings`, { method: 'POST', body: json(model) });
+            } catch (e) {
+                const response = e as Response;
+                if (response.status === 409 /*Conflict*/) {
+                    return 'conflict';
+                } else if (response.status === 412 /*Precondition Failed*/) {
+                    return 'concurrent-update';
+                } else if (!response.ok) {
+                    throw new Error(`The request responded with status ${response.status} ${response.statusText}, which is unexpected.`);
+                }
+            }
         }
     }
 
@@ -84,9 +106,10 @@ export module Api {
     }
 
     export interface FlightUpdateModel {
-        eTag: string;
         configuration: Configuration;
     }
+
+    export type FlightUpdateError = void | 'conflict' | 'concurrent-update';
 
     export interface Booking {
         id: string;

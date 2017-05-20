@@ -23,20 +23,26 @@ export class Book implements RoutableComponentActivate {
 
     physicalClass: Api.PhysicalClassIataCode = 'Y';
     numberOfSeats = 0;
+    error: Api.FlightUpdateError;
 
     async activate(params: RouteParams) {
         this.flight = await this.apiClient.getFlightById(params.id);
     }
 
     async save() {
+        this.error = undefined;
         const result = await this.validator.validate();
         if (result.valid) {
-            await this.apiClient.book({
+            const result = await this.apiClient.book({
                 flightId: this.flight.id,
                 physicalClass: this.physicalClass,
                 numberOfSeats: parseInt(this.numberOfSeats.toString())
             });
-            this.router.navigateToRoute('details', { id: this.flight.id });
+            if (result) {
+                this.error = result;
+            } else {
+                this.router.navigateToRoute('details', { id: this.flight.id });
+            }
         }
     }
 }
